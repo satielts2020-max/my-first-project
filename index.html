@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>My Photo Gallery</h1>
+
+    <div class="gallery">
+        <img src="https://picsum.photos/400/300?1" onclick="showImage(this)">
+        <img src="https://picsum.photos/400/300?2" onclick="showImage(this)">
+        <img src="https://picsum.photos/400/300?3" onclick="showImage(this)">
+        <img src="https://picsum.photos/400/300?4" onclick="showImage(this)">
+    </div>
+
+    <div id="popup" onclick="closeImage()">
+        <img id="bigImage">
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
