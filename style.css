@@ -1,44 +1,221 @@
+
+@font-face {
+    font-family: 'mobin';
+    src: url('ChangaOne-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'track';
+    src: url('NewRocker-Regular.ttf');
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #111;
-    color: white;
-}
-
-h1 {
-    margin: 30px;
-}
-
-.gallery {
+    margin: 0;
+    min-height: 100vh;
+    padding: 25px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-}
-
-.gallery img {
-    width: 220px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.gallery img:hover {
-    transform: scale(1.05);
-}
-
-#popup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
+    background: linear-gradient(135deg, #7777ad, #c5c5e9, #8585b8);
+    font-family: Arial, sans-serif;
 }
 
-#popup img {
-    max-width: 90%;
-    max-height: 90%;
+.weather-card {
+    width: 100%;
+    max-width: 850px;
+    padding: 40px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 20px 60px rgba(35, 35, 80, 0.2);
+    backdrop-filter: blur(14px);
+}
+
+.logo {
+    margin-bottom: 25px;
+    color: #29294f;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.pro {
+    margin: 0 0 20px;
+    color: #29294f;
+    font-family: 'mobin', sans-serif;
+    font-size: clamp(32px, 6vw, 60px);
+}
+
+.h3 {
+    margin: 0 0 10px;
+    color: #34345c;
+    font-family: 'track', cursive;
+    font-size: 59px;
+}
+
+.description {
+    margin: 0 0 28px;
+    color: #44446b;
+    font-size: 17px;
+}
+
+.weather-form {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.form-control {
+    width: 100%;
+    height: 56px;
+    padding: 0 18px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 14px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.92);
+    color: #29294f;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    transition: 0.25s ease;
+}
+
+.form-control:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+}
+
+.weather-btn {
+    width: 100%;
+    min-height: 56px;
+    margin-top: 15px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(21, 128, 61, 0.28);
+    transition: 0.25s ease;
+}
+
+.weather-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(21, 128, 61, 0.4);
+}
+
+.weather-btn:disabled {
+    opacity: 0.65;
+    cursor: wait;
+    transform: none;
+}
+
+.message {
+    min-height: 24px;
+    margin: 22px 0;
+    color: #34345c;
+    overflow-wrap: anywhere;
+}
+
+.weather-result {
+    margin-top: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.38);
+}
+
+.city-name {
+    margin: 0;
+    color: #29294f;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.weather-icon {
+    margin: 15px 0 0;
+    font-size: 65px;
+}
+
+.temperature {
+    color: #29294f;
+    font-size: 54px;
+    font-weight: bold;
+}
+
+.weather-description {
+    color: #44446b;
+    font-size: 18px;
+}
+
+.weather-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.55);
+    color: #34345c;
+}
+
+.detail strong {
+    font-size: 19px;
+}
+
+.updated {
+    margin: 20px 0 0;
+    color: #555575;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+footer {
+    margin-top: 30px;
+    color: #44446b;
+    font-size: 13px;
+}
+
+footer a {
+    color: #166534;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 12px;
+    }
+
+    .weather-card {
+        padding: 25px 17px;
+        border-radius: 22px;
+    }
+
+    .h3 {
+        font-size: 49px;
+    }
+
+    .weather-result {
+        padding: 18px 12px;
+    }
 }
