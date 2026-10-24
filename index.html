@@ -1,28 +1,336 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Gallery</title>
+    <title>Mobin Weather</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <h1>My Photo Gallery</h1>
+    <main class="weather-card">
+        <div class="logo">🌤️ Mobin Weather</div>
 
-    <div class="gallery">
-        <img src="https://picsum.photos/400/300?1" onclick="showImage(this)">
-        <img src="https://picsum.photos/400/300?2" onclick="showImage(this)">
-        <img src="https://picsum.photos/400/300?3" onclick="showImage(this)">
-        <img src="https://picsum.photos/400/300?4" onclick="showImage(this)">
-    </div>
+        <h2 class="pro">Welcome to my first project</h2>
+        <h3 class="h3">Weather</h3>
+        <p class="description">Discover the weather in your city</p>
 
-    <div id="popup" onclick="closeImage()">
-        <img id="bigImage">
-    </div>
+        <form class="weather-form">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Search Iranian cities..."
+                aria-label="City name"
+                list="iranCities"
+                autocomplete="off"
+                required
+            >
 
-    <script src="script.js"></script>
+            <datalist id="iranCities">
+                <option value="گوگان">
+                <option value="آذرشهر">
+                <option value="تبریز">
+                <option value="اسکو">
+                <option value="سهند">
+                <option value="ایلخچی">
+                <option value="ممقان">
+                <option value="شبستر">
+                <option value="صوفیان">
+                <option value="مرند">
+                <option value="مراغه">
+                <option value="میانه">
+                <option value="بناب">
+                <option value="عجب‌شیر">
+                <option value="ملکان">
+                <option value="ارومیه">
+                <option value="اردبیل">
+                <option value="تهران">
+                <option value="کرج">
+                <option value="اصفهان">
+                <option value="شیراز">
+                <option value="مشهد">
+                <option value="اهواز">
+                <option value="رشت">
+                <option value="ساری">
+                <option value="کرمان">
+                <option value="یزد">
+                <option value="زنجان">
+                <option value="قزوین">
+                <option value="همدان">
+                <option value="قم">
+                <option value="کاشان">
+                <option value="بندرعباس">
+                <option value="زاهدان">
+                <option value="سنندج">
+                <option value="خرم‌آباد">
+                <option value="ایلام">
+                <option value="بوشهر">
+                <option value="گرگان">
+                <option value="بیرجند">
+                <option value="شهرکرد">
+                <option value="یاسوج">
+                <option value="سمنان">
+                <option value="بجنورد">
+                <option value="خرمشهر">
+                <option value="آبادان">
+                <option value="قائم‌شهر">
+                <option value="دزفول">
+                <option value="نیشابور">
+                <option value="سبزوار">
+                <option value="کیش">
+                <option value="قشم">
+            </datalist>
+
+            <button type="submit" class="weather-btn">
+                Search Weather
+            </button>
+        </form>
+
+        <p class="message" role="status" aria-live="polite">
+            Search for a city to see its weather.
+        </p>
+
+        <section class="weather-result" hidden>
+            <p class="city-name"></p>
+            <div class="weather-icon">🌤️</div>
+            <div class="temperature"></div>
+            <p class="weather-description"></p>
+
+            <div class="weather-details">
+                <div class="detail">
+                    <span>💧 Humidity</span>
+                    <strong class="humidity"></strong>
+                </div>
+                <div class="detail">
+                    <span>💨 Wind speed</span>
+                    <strong class="wind"></strong>
+                </div>
+            </div>
+
+            <p class="updated"></p>
+        </section>
+
+        <footer>
+            Weather data by
+            <a href="https://open-meteo.com/" target="_blank" rel="noopener">
+                Open-Meteo
+            </a>
+        </footer>
+    </main>
+
+    <script>
+        const form = document.querySelector(".weather-form");
+        const input = document.querySelector(".form-control");
+        const button = document.querySelector(".weather-btn");
+        const message = document.querySelector(".message");
+        const result = document.querySelector(".weather-result");
+
+        const iranCities = {
+            "گوگان": { latitude: 37.78, longitude: 45.90 },
+            "آذرشهر": { latitude: 37.76, longitude: 45.98 },
+            "تبریز": { latitude: 38.08, longitude: 46.29 },
+            "اسکو": { latitude: 37.92, longitude: 46.12 },
+            "سهند": { latitude: 37.95, longitude: 46.12 },
+            "ایلخچی": { latitude: 37.94, longitude: 45.98 },
+            "ممقان": { latitude: 37.84, longitude: 45.97 },
+            "شبستر": { latitude: 38.18, longitude: 45.70 },
+            "صوفیان": { latitude: 38.27, longitude: 45.98 },
+            "مرند": { latitude: 38.43, longitude: 45.77 },
+            "مراغه": { latitude: 37.39, longitude: 46.24 },
+            "میانه": { latitude: 37.42, longitude: 47.72 },
+            "بناب": { latitude: 37.34, longitude: 46.06 },
+            "عجب‌شیر": { latitude: 37.48, longitude: 45.89 },
+            "ملکان": { latitude: 37.15, longitude: 46.10 },
+            "ارومیه": { latitude: 37.55, longitude: 45.08 },
+            "اردبیل": { latitude: 38.25, longitude: 48.30 },
+            "تهران": { latitude: 35.69, longitude: 51.39 },
+            "کرج": { latitude: 35.84, longitude: 50.94 },
+            "اصفهان": { latitude: 32.65, longitude: 51.67 },
+            "شیراز": { latitude: 29.59, longitude: 52.58 },
+            "مشهد": { latitude: 36.30, longitude: 59.60 },
+            "اهواز": { latitude: 31.32, longitude: 48.67 },
+            "رشت": { latitude: 37.28, longitude: 49.58 },
+            "ساری": { latitude: 36.56, longitude: 53.06 },
+            "کرمان": { latitude: 30.28, longitude: 57.08 },
+            "یزد": { latitude: 31.90, longitude: 54.37 },
+            "زنجان": { latitude: 36.67, longitude: 48.48 },
+            "قزوین": { latitude: 36.27, longitude: 50.00 },
+            "همدان": { latitude: 34.80, longitude: 48.51 },
+            "قم": { latitude: 34.64, longitude: 50.88 },
+            "کاشان": { latitude: 33.99, longitude: 51.44 },
+            "بندرعباس": { latitude: 27.19, longitude: 56.27 },
+            "زاهدان": { latitude: 29.50, longitude: 60.86 },
+            "سنندج": { latitude: 35.31, longitude: 46.99 },
+            "خرم‌آباد": { latitude: 33.49, longitude: 48.36 },
+            "ایلام": { latitude: 33.64, longitude: 46.42 },
+            "بوشهر": { latitude: 28.92, longitude: 50.84 },
+            "گرگان": { latitude: 36.84, longitude: 54.44 },
+            "بیرجند": { latitude: 32.87, longitude: 59.22 },
+            "شهرکرد": { latitude: 32.33, longitude: 50.86 },
+            "یاسوج": { latitude: 30.67, longitude: 51.59 },
+            "سمنان": { latitude: 35.58, longitude: 53.39 },
+            "بجنورد": { latitude: 37.47, longitude: 57.33 },
+            "خرمشهر": { latitude: 30.44, longitude: 48.17 },
+            "آبادان": { latitude: 30.34, longitude: 48.30 },
+            "قائم‌شهر": { latitude: 36.46, longitude: 52.86 },
+            "دزفول": { latitude: 32.38, longitude: 48.40 },
+            "نیشابور": { latitude: 36.21, longitude: 58.80 },
+            "سبزوار": { latitude: 36.21, longitude: 57.68 },
+            "کیش": { latitude: 26.56, longitude: 53.98 },
+            "قشم": { latitude: 26.96, longitude: 56.27 }
+        };
+
+        function normalizeCity(name) {
+            return name
+                .trim()
+                .replace(/ي/g, "ی")
+                .replace(/ك/g, "ک")
+                .replace(/ۀ/g, "ه")
+                .replace(/\s+/g, " ");
+        }
+
+        function weatherInfo(code) {
+            if (code === 0) return ["Clear sky", "☀️"];
+            if (code === 1) return ["Mainly clear", "🌤️"];
+            if (code === 2) return ["Partly cloudy", "⛅"];
+            if (code === 3) return ["Overcast", "☁️"];
+            if ([45, 48].includes(code)) return ["Fog", "🌫️"];
+            if ([51, 53, 55, 56, 57].includes(code)) return ["Drizzle", "🌦️"];
+            if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
+                return ["Rain", "🌧️"];
+            }
+            if ([71, 73, 75, 77, 85, 86].includes(code)) {
+                return ["Snow", "❄️"];
+            }
+            if ([95, 96, 99].includes(code)) return ["Thunderstorm", "⛈️"];
+            return ["Weather conditions unavailable", "🌡️"];
+        }
+
+        async function getCoordinates(city) {
+            const normalized = normalizeCity(city);
+            const localCity = Object.keys(iranCities).find(
+                name => normalizeCity(name) === normalized
+            );
+
+            if (localCity) {
+                return {
+                    name: localCity,
+                    ...iranCities[localCity]
+                };
+            }
+
+            const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
+            url.search = new URLSearchParams({
+                name: city,
+                count: "10",
+                language: "en",
+                format: "json"
+            });
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error("City search service is unavailable.");
+            }
+
+            const data = await response.json();
+
+            const places = (data.results || []).filter(place =>
+                place.country_code === "IR"
+            );
+
+            if (!places.length) {
+                throw new Error("City not found. Try another Iranian city.");
+            }
+
+            const match = places.find(place =>
+                normalizeCity(place.name) === normalized
+            ) || places[0];
+
+            return {
+                name: match.name,
+                latitude: match.latitude,
+                longitude: match.longitude
+            };
+        }
+
+        async function getWeather(city) {
+            const place = await getCoordinates(city);
+
+            const url = new URL("https://api.open-meteo.com/v1/forecast");
+            url.search = new URLSearchParams({
+                latitude: place.latitude,
+                longitude: place.longitude,
+                current: "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m",
+                timezone: "auto"
+            });
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error("Could not get weather data.");
+            }
+
+            const data = await response.json();
+
+            if (!data.current) {
+                throw new Error("Weather data is unavailable for this city.");
+            }
+
+            return { place, current: data.current };
+        }
+
+        form.addEventListener("submit", async event => {
+            event.preventDefault();
+
+            const city = input.value.trim();
+
+            if (!city) {
+                message.textContent = "Please enter a city name.";
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "Loading...";
+            message.textContent = "Getting the latest weather...";
+            result.hidden = true;
+
+            try {
+                const { place, current } = await getWeather(city);
+                const [description, icon] = weatherInfo(current.weather_code);
+
+                document.querySelector(".city-name").textContent =
+                    "📍 " + place.name;
+
+                document.querySelector(".weather-icon").textContent = icon;
+
+                document.querySelector(".temperature").textContent =
+                    Math.round(current.temperature_2m) + "°C";
+
+                document.querySelector(".weather-description").textContent =
+                    description;
+
+                document.querySelector(".humidity").textContent =
+                    current.relative_humidity_2m + "%";
+
+                document.querySelector(".wind").textContent =
+                    current.wind_speed_10m + " km/h";
+
+                document.querySelector(".updated").textContent =
+                    "Local time: " + current.time.replace("T", " ");
+
+                result.hidden = false;
+                message.textContent = "Weather loaded successfully!";
+            } catch (error) {
+                message.textContent = error.message ||
+                    "Something went wrong. Please try again.";
+            } finally {
+                button.disabled = false;
+                button.textContent = "Search Weather";
+            }
+        });
+    </script>
 
 </body>
 </html>
